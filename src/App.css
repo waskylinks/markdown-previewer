@@ -8,17 +8,11 @@ body, html {
   width: 100%;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 16px;
-  line-height: 1.5;
-  overflow-x: hidden;
+  background-color: #b0d0d3;
 }
 
-.app {
-  display: flex;
-  flex-direction: column;
-  min-height: 100%;
-  position: relative;
-  background: #b0d0d3;
-  color: #000000;
+.app.light {
+  color: #000;
 }
 
 .app.dark {
@@ -27,86 +21,61 @@ body, html {
 }
 
 .theme-toggle {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  font-size: 4px;
-  z-index: 0;
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  background: #000;
+  font-size: 13px;
   padding: 4px 8px;
-  background-color: #000000;
-  color: #ffffff;
-  border: 1px solid #666666;
-  border-radius: 20px;
-  cursor: pointer;
+  color: #fff;
+  border-radius: 4px;
+  z-index: 1000;
 }
 
 .pane {
   width: 90%;
   max-width: 800px;
-  margin: 8px auto;
-  padding: 12px;
+  margin: 12px auto;
+  padding: 10px;
   border: 1px solid #cccccc;
-  background: #ffffff;
-  overflow: auto;
-  position: relative;
+  background: #fefefe;
+  border-radius: 4px;
+  transition: all 0.3s ease;
 }
 
-.editor-pane, .preview-pane {
-  transition: opacity 0.3s ease;
-}
-
-.editor-pane {
-  z-index: 1;
-  opacity: 1;
-}
-
-.preview-pane {
-  z-index: 2;
-  opacity: 1;
-}
-
-.editor-pane.hidden, .preview-pane.hidden {
-  opacity: 0;
-  pointer-events: none;
-}
-
-.close-btn {
-  position: absolute;
-  top: 4px;
-  right: 4px;
-  background: transparent;
-  border: none;
-  color: #000000;
-  font-size: 16px;
-  cursor: pointer;
-  padding: 2px;
-}
-
-.app.dark .close-btn {
-  color: #ffffff;
+.app.dark .pane {
+  background: #2c3e50;
+  color: #f0f0f0;
 }
 
 .toolbar {
-  font-weight: bold;
-  padding: 6px 10px;
-  margin-bottom: 8px;
   background: #4db6ac;
-  color: #ffffff;
-  border: 1px solid #3a8f87;
-  text-align: centre;
+  padding: 6px 10px;
+  color: white;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
 }
 
 textarea#editor {
-  width: 100;
-  min-height: 200px;
-  border: 1px solid #cccccc;
-  outline: none;
-  background-color: transparent;
-  color: inherit;
+  width: 100%;
+  height: 300px;
+  padding: 10px;
+  font-family: 'Courier New', Courier, monospace;
   font-size: 14px;
-  font-family: "Courier New", monospace;
-  padding: 6px;
-  
+  resize: vertical;
+  border: 1px solid #ccc;
+  background: inherit;
+  color: inherit;
 }
 
 #preview {
@@ -115,64 +84,91 @@ textarea#editor {
   font-size: 14px;
 }
 
-#previw table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 8px 0;
+#preview h1, #preview h2, #preview h3 {
+  border-bottom: 1px solid #aaa;
+  margin: 12px 0 6px;
 }
 
-#preview th, #preview td {
-  border: 1px solid #999999;
-  padding: 6px;
-  text-align: left;
-  font-size: 13px;
-}
+#preview h1 { font-size: 24px; }
+#preview h2 { font-size: 20px; }
+#preview h3 { font-size: 16px; }
 
-pre {
+#preview pre {
   background: #263238;
-  color: #ffffff;
+  color: white;
   padding: 8px;
   overflow-x: auto;
-  font-size: 13px;
-  font-family: "Courier New", monospace;
 }
 
-h1, h2, h3 {
-  padding-bottom: 4px;
-  margin: 12px 0 8px;
+.app.dark pre {
+  background: #1c1c1c;
 }
 
-h1 { font-size: 24px; }
-h2 { font-size: 20px; }
-h3 { font-size: 16px; }
+code {
+  background: #f1f1f1;
+  padding: 2px 4px;
+  font-family: monospace;
+}
 
 blockquote {
-  border-left: 4px solid #cccccc;
-  padding-left: 8px;
-  color: #555555;
-  margin: 12px 0;
-  font-size: 14px;
+  border-left: 4px solid #999;
+  padding-left: 10px;
+  margin: 10px 0;
+  color: #555;
 }
 
-img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-  margin: 8px auto;
+.app.dark blockquote {
+  border-left-color: #aaa;
+  color: #ccc;
 }
 
-.app.dark .preview-pane {
-  background: #2c3e50;
-  color: #f0f0f0;
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
 }
 
-.app.dark .editor-pane {
-  opacity: 0.2;
+th, td {
+  border: 1px solid #aaa;
+  padding: 6px;
+  text-align: left;
 }
 
-.app.dark code {
-  background: #555555;
+.hidden {
+  display: none;
 }
 
+@media (max-width: 768px) {
+  textarea#editor {
+    height: 200px;
+  }
 
+  .toolbar {
+    font-size: 14px;
+  }
+
+  #preview {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .pane {
+    width: 95%;
+  }
+
+  .theme-toggle {
+    font-size: 12px;
+    padding: 2px 6px;
+  }
+
+  .textarea#editor {
+    height: 160px;
+    font-size: 13px;
+  }
+
+  #preview {
+    font-size: 12px;
+  }
+}
 
