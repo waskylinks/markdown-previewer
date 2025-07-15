@@ -1,6 +1,7 @@
 import React, { useState }from 'react';
 import './App.css';
 import {marked} from 'marked';
+import { FaSun, FaMoon } from 'react-icons/fa';
 
 marked.setOptions({ breaks: true });
 
@@ -58,26 +59,19 @@ function App() {
 
   const [markdown, setMarkdown] = useState(defaultMarkdown);
   const [darkMode, setDarkMode] = useState(false);
-  const [activePane, setActivePane] = useState(null);
+  const [ showEditor, setshowEditor] = useState(true);
+  const [ showPreview, setShowPreview] = useState(true);
 
   return (
   <div
   className={`app ${darkMode ? 'dark' : 'light'}`}
   >
-    <div className='theme-toggle'>
-      <label>
-        <input
-        type='checkbox'
-        checked={darkMode}
-        onChange={ () => setDarkMode(!darkMode)}
-        />
-        {darkMode ? ' Dark Mode' : ' Light Mode'}
-      </label>
+    <div className='theme-toggle'
+    onClick={() => setDarkMode(! darkMode)}>
+      {darkMode ? <FaSun /> : <FaMoon />}
     </div>
-    
-    <div
-    className={`pane editor-pane ${ activePane === 'preview' ? 'hidden' : '' }`}
-    >
+    {showEditor && (
+      <div className={`pane editor-pane ${ !showPreview ? 'full' : ''}`}>
       <div
       className='toolbar'>
         <span
@@ -86,8 +80,7 @@ function App() {
         </span>
         <button
         className='close-btn'
-        onClick={ () => setActivePane(activePane === 'editor' ? null : 'editor')}
-        >
+        onClick={ () => setShowPreview(!showPreview)}>
           X
         </button>
       </div>
@@ -97,15 +90,18 @@ function App() {
       onChange={(e) => setMarkdown(e.target.value)}
       />
     </div>
+    )}
+
+    {showPreview && (
 
     <div
-    className={`pane preview-pane ${ activePane === 'editor' ? 'hidden' : '' }`}
+    className={`pane preview-pane ${!showEditor ? 'full' : '' }`}
     >
       <div className='toolbar'>
         <span className='title'>Previewer</span>
         <button
         className='close-btn'
-        onClick={ () => setActivePane(activePane === 'preview' ? null : 'preview')}>
+        onClick={ () => setshowEditor(!showEditor(!showEditor))}>
           X
         </button>
       </div>
@@ -115,8 +111,10 @@ function App() {
       />
 
     </div>
+    )}
 
   </div>
-)}
+  );
+}
 
 export default App
