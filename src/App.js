@@ -4,7 +4,7 @@ import {marked} from 'marked';
 
 marked.setOptions({ breaks: true });
 
-const defaultMarkdown = `# Welcome tp my React Markdown Previewer!
+const defaultMarkdown = `# Welcome to my React Markdown Previewer!
 
 ## This is a sub-heading...
 ### And here's some other cool stuff:
@@ -57,8 +57,8 @@ content can   | be here, and  | here
 function App() {
 
   const [markdown, setMarkdown] = useState(defaultMarkdown);
-  const [editorVisible, setEditorVisible] = useState(true);
   const [darkMode, setDarkMode] = useState(false);
+  const [activePane, setActivePane] = useState(null);
 
   return (
   <div
@@ -76,8 +76,7 @@ function App() {
     </div>
     
     <div
-    className='pane editor-pane'
-    style={{ display: editorVisible ? 'flex' : 'none'}}
+    className={`pane editor-pane ${ activePane === 'preview' ? 'hidden' : '' }`}
     >
       <div
       className='toolbar'>
@@ -87,7 +86,7 @@ function App() {
         </span>
         <button
         className='close-btn'
-        onClick={() => setEditorVisible(false)}
+        onClick={ () => setActivePane(activePane === 'editor' ? null : 'editor')}
         >
           X
         </button>
@@ -100,15 +99,13 @@ function App() {
     </div>
 
     <div
-    className='pane-preview-pane'
-    style={{ display: editorVisible ? 'none' : 'flex'}}
+    className={`pane preview-pane ${ activePane === 'editor' ? 'hidden' : '' }`}
     >
-
       <div className='toolbar'>
         <span className='title'>Previewer</span>
         <button
         className='close-btn'
-        onClick={() => setEditorVisible(true)}>
+        onClick={ () => setActivePane(activePane === 'preview' ? null : 'preview')}>
           X
         </button>
       </div>

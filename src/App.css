@@ -1,10 +1,178 @@
-body, html {
+* {
   margin: 0;
   padding: 0;
-  font-family: Arial, Helvetica, sans-serif;
+  box-sizing: border-box;
+}
+body, html {
   height: 100%;
+  width: 100%;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  overflow-x: hidden;
 }
-.app.light {
+
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  position: relative;
   background: #b0d0d3;
-  color: #000;
+  color: #000000;
 }
+
+.app.dark {
+  background: #1e1e1e;
+  color: #f0f0f0;
+}
+
+.theme-toggle {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 4px;
+  z-index: 0;
+  padding: 4px 8px;
+  background-color: #000000;
+  color: #ffffff;
+  border: 1px solid #666666;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.pane {
+  width: 90%;
+  max-width: 800px;
+  margin: 8px auto;
+  padding: 12px;
+  border: 1px solid #cccccc;
+  background: #ffffff;
+  overflow: auto;
+  position: relative;
+}
+
+.editor-pane, .preview-pane {
+  transition: opacity 0.3s ease;
+}
+
+.editor-pane {
+  z-index: 1;
+  opacity: 1;
+}
+
+.preview-pane {
+  z-index: 2;
+  opacity: 1;
+}
+
+.editor-pane.hidden, .preview-pane.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.close-btn {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: transparent;
+  border: none;
+  color: #000000;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 2px;
+}
+
+.app.dark .close-btn {
+  color: #ffffff;
+}
+
+.toolbar {
+  font-weight: bold;
+  padding: 6px 10px;
+  margin-bottom: 8px;
+  background: #4db6ac;
+  color: #ffffff;
+  border: 1px solid #3a8f87;
+  text-align: centre;
+}
+
+textarea#editor {
+  width: 100;
+  min-height: 200px;
+  border: 1px solid #cccccc;
+  outline: none;
+  background-color: transparent;
+  color: inherit;
+  font-size: 14px;
+  font-family: "Courier New", monospace;
+  padding: 6px;
+  
+}
+
+#preview {
+  white-space: normal;
+  word-wrap: break-word;
+  font-size: 14px;
+}
+
+#previw table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 8px 0;
+}
+
+#preview th, #preview td {
+  border: 1px solid #999999;
+  padding: 6px;
+  text-align: left;
+  font-size: 13px;
+}
+
+pre {
+  background: #263238;
+  color: #ffffff;
+  padding: 8px;
+  overflow-x: auto;
+  font-size: 13px;
+  font-family: "Courier New", monospace;
+}
+
+h1, h2, h3 {
+  padding-bottom: 4px;
+  margin: 12px 0 8px;
+}
+
+h1 { font-size: 24px; }
+h2 { font-size: 20px; }
+h3 { font-size: 16px; }
+
+blockquote {
+  border-left: 4px solid #cccccc;
+  padding-left: 8px;
+  color: #555555;
+  margin: 12px 0;
+  font-size: 14px;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 8px auto;
+}
+
+.app.dark .preview-pane {
+  background: #2c3e50;
+  color: #f0f0f0;
+}
+
+.app.dark .editor-pane {
+  opacity: 0.2;
+}
+
+.app.dark code {
+  background: #555555;
+}
+
+
+
