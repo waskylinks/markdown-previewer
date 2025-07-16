@@ -1,6 +1,6 @@
-import React, { useState }from 'react';
+import React, { useState } from 'react';
 import './App.css';
-import {marked} from 'marked';
+import { marked } from 'marked';
 import { FaSun, FaMoon } from 'react-icons/fa';
 
 marked.setOptions({ breaks: true });
@@ -52,69 +52,61 @@ content can   | be here, and  | here
 1. And last but not least, let's not forget embedded images:
 
 ![freecodecampLogo](https://cdn.freecodecamp.org/testables-projects-free/images/fcc_secoundary.svg)
-  
 `;
 
 function App() {
-
   const [markdown, setMarkdown] = useState(defaultMarkdown);
   const [darkMode, setDarkMode] = useState(false);
-  const [ showEditor, setshowEditor] = useState(true);
-  const [ showPreview, setShowPreview] = useState(true);
+  const [showEditor, setshowEditor] = useState(true);
+  const [showPreview, setShowPreview] = useState(true);
 
   return (
-  <div
-  className={`app ${darkMode ? 'dark' : 'light'}`}
-  >
-    <div className='theme-toggle'
-    onClick={() => setDarkMode(! darkMode)}>
-      {darkMode ? <FaSun /> : <FaMoon />}
-    </div>
-    {showEditor && (
-      <div className={`pane editor-pane ${ !showPreview ? 'full' : ''}`}>
+    <div className={`app ${darkMode ? 'dark' : 'light'}`}>
       <div
-      className='toolbar'>
-        <span
-        className='title'>
-          Editor
-        </span>
-        <button
-        className='close-btn'
-        onClick={ () => setShowPreview(!showPreview)}>
-          X
-        </button>
+        className='theme-toggle'
+        onClick={() => setDarkMode(!darkMode)}
+      >
+        {darkMode ? <FaSun /> : <FaMoon />}
       </div>
-      <textarea
-      id='editor'
-      value={markdown}
-      onChange={(e) => setMarkdown(e.target.value)}
-      />
+
+      {showEditor && (
+        <div className={`pane editor-pane ${!showPreview ? 'full' : ''}`}>
+          <div className='toolbar'>
+            <span className='title'>Editor</span>
+            <button
+              className='close-btn'
+              onClick={() => setShowPreview(!showPreview)}
+            >
+              X
+            </button>
+          </div>
+          <textarea
+            id='editor'
+            value={markdown}
+            onChange={(e) => setMarkdown(e.target.value)}
+          />
+        </div>
+      )}
+
+      {showPreview && (
+        <div className={`pane preview-pane ${!showEditor ? 'full' : ''}`}>
+          <div className='toolbar'>
+            <span className='title'>Previewer</span>
+            <button
+              className='close-btn'
+              onClick={() => setshowEditor(!showEditor)}
+            >
+              X
+            </button>
+          </div>
+          <div
+            id='preview'
+            dangerouslySetInnerHTML={{ __html: marked.parse(markdown) }}
+          />
+        </div>
+      )}
     </div>
-    )}
-
-    {showPreview && (
-
-    <div
-    className={`pane preview-pane ${!showEditor ? 'full' : '' }`}
-    >
-      <div className='toolbar'>
-        <span className='title'>Previewer</span>
-        <button
-        className='close-btn'
-        onClick={ () => setshowEditor(!showEditor(!showEditor))}>
-          X
-        </button>
-      </div>
-      <div
-      id='preview'
-      dangerouslySetInnerHTML={{ __html: marked.parse(markdown) }} 
-      />
-
-    </div>
-    )}
-
-  </div>
   );
 }
 
-export default App
+export default App;
