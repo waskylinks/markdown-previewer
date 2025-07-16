@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState }from 'react';
 import './App.css';
-import { marked } from 'marked';
-import { FaSun, FaMoon } from 'react-icons/fa';
+import {marked} from 'marked';
 
 marked.setOptions({ breaks: true });
 
@@ -50,63 +49,72 @@ content can   | be here, and  | here
 1. And there are numbered lists too.
 1. Use just 1s if you want!
 1. And last but not least, let's not forget embedded images:
-
-![freecodecampLogo](https://cdn.freecodecamp.org/testables-projects-free/images/fcc_secoundary.svg)
+  
 `;
 
 function App() {
+
   const [markdown, setMarkdown] = useState(defaultMarkdown);
   const [darkMode, setDarkMode] = useState(false);
-  const [showEditor, setshowEditor] = useState(true);
-  const [showPreview, setShowPreview] = useState(true);
+  const [activePane, setActivePane] = useState(null);
 
   return (
-    <div className={`app ${darkMode ? 'dark' : 'light'}`}>
-      <div
-        className='theme-toggle'
-        onClick={() => setDarkMode(!darkMode)}
-      >
-        {darkMode ? <FaSun /> : <FaMoon />}
-      </div>
-
-      {showEditor && (
-        <div className={`pane editor-pane ${!showPreview ? 'full' : ''}`}>
-          <div className='toolbar'>
-            <span className='title'>Editor</span>
-            <button
-              className='close-btn'
-              onClick={() => setShowPreview(!showPreview)}
-            >
-              X
-            </button>
-          </div>
-          <textarea
-            id='editor'
-            value={markdown}
-            onChange={(e) => setMarkdown(e.target.value)}
-          />
-        </div>
-      )}
-
-      {showPreview && (
-        <div className={`pane preview-pane ${!showEditor ? 'full' : ''}`}>
-          <div className='toolbar'>
-            <span className='title'>Previewer</span>
-            <button
-              className='close-btn'
-              onClick={() => setshowEditor(!showEditor)}
-            >
-              X
-            </button>
-          </div>
-          <div
-            id='preview'
-            dangerouslySetInnerHTML={{ __html: marked.parse(markdown) }}
-          />
-        </div>
-      )}
+  <div
+  className={`app ${darkMode ? 'dark' : 'light'}`}
+  >
+    <div className='theme-toggle'>
+      <label>
+        <input
+        type='checkbox'
+        checked={darkMode}
+        onChange={ () => setDarkMode(!darkMode)}
+        />
+        {darkMode ? ' Dark Mode' : ' Light Mode'}
+      </label>
     </div>
-  );
-}
+    
+    <div
+    className={`pane editor-pane ${ activePane === 'preview' ? 'hidden' : '' }`}
+    >
+      <div
+      className='toolbar'>
+        <span
+        className='title'>
+          Editor
+        </span>
+        <button
+        className='close-btn'
+        onClick={ () => setActivePane(activePane === 'editor' ? null : 'editor')}
+        >
+          X
+        </button>
+      </div>
+      <textarea
+      id='editor'
+      value={markdown}
+      onChange={(e) => setMarkdown(e.target.value)}
+      />
+    </div>
 
-export default App;
+    <div
+    className={`pane preview-pane ${ activePane === 'editor' ? 'hidden' : '' }`}
+    >
+      <div className='toolbar'>
+        <span className='title'>Previewer</span>
+        <button
+        className='close-btn'
+        onClick={ () => setActivePane(activePane === 'preview' ? null : 'preview')}>
+          X
+        </button>
+      </div>
+      <div
+      id='preview'
+      dangerouslySetInnerHTML={{ __html: marked.parse(markdown) }} 
+      />
+
+    </div>
+
+  </div>
+)}
+
+export default App
