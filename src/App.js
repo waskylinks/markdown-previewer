@@ -1,6 +1,6 @@
 import React, { useState }from 'react';
 import './App.css';
-import {marked} from 'marked';
+import { marked } from 'marked';
 
 marked.setOptions({ breaks: true });
 
@@ -60,7 +60,7 @@ function App() {
 
   return (
   <div
-  className={`app ${darkMode ? 'dark' : 'light'}`}
+  className= {`app ${darkMode ? 'dark' : 'light'}`}
   >
     <div className='theme-toggle'>
       <label>
