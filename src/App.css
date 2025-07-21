@@ -3,6 +3,7 @@
   padding: 0;
   box-sizing: border-box;
 }
+
 body, html {
   height: 100%;
   width: 100%;
@@ -14,7 +15,7 @@ body, html {
 .app {
   min-height: 100vh;
   position: relative;
-  padding-top: 40px; /* space for fixed toggle */
+  padding-top: 40px;
 }
 
 .app.light {
@@ -29,7 +30,7 @@ body, html {
 .theme-toggle {
   position: fixed;
   top: 10px;
-  left: 10px; /* moved to left */
+  left: 10px;
   background: #000;
   font-size: 13px;
   padding: 4px 8px;
@@ -42,19 +43,24 @@ body, html {
   width: 90%;
   max-width: 800px;
   margin: 12px auto;
-  padding: 10px;
+  padding: 10px 15px;
   border: 1px solid #cccccc;
   background: #fefefe;
   border-radius: 4px;
   transition: all 0.3s ease;
-  padding-left: 15px; /* added for list padding */
-  padding-right: 15px;
   overflow-wrap: break-word;
 }
 
 .app.dark .pane {
   background: #2c3e50;
   color: #f0f0f0;
+}
+
+/* When only one pane is visible, stretch it */
+.full-width {
+  width: 95% !important;
+  max-width: none !important;
+  margin: 20px auto !important;
 }
 
 .toolbar {
@@ -87,16 +93,15 @@ textarea#editor {
   color: inherit;
 }
 
-/* Preview text styles */
 #preview {
   white-space: normal;
   word-wrap: break-word;
   font-size: 14px;
-  padding-left: 0; /* reset if needed */
+  padding-left: 0;
   padding-right: 0;
 }
 
-/* Headings inside preview */
+/* Headings */
 #preview h1, #preview h2, #preview h3 {
   border-bottom: 1px solid #aaa;
   margin: 12px 0 6px;
@@ -106,7 +111,7 @@ textarea#editor {
 #preview h2 { font-size: 20px; }
 #preview h3 { font-size: 16px; }
 
-/* Code blocks and inline code */
+/* Code blocks */
 code {
   background: #eee;
   color: #c7254e;
@@ -170,7 +175,7 @@ th, td {
   text-align: left;
 }
 
-/* Lists with proper padding */
+/* Lists */
 #preview ul,
 #preview ol {
   padding-left: 20px;
@@ -184,7 +189,7 @@ th, td {
   padding-left: 20px;
 }
 
-/* Responsive */
+/* Responsive Design */
 @media (max-width: 768px) {
   textarea#editor {
     height: 200px;

@@ -1,4 +1,4 @@
-import React, { useState }from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import { marked } from 'marked';
 
@@ -49,72 +49,62 @@ content can   | be here, and  | here
 1. And there are numbered lists too.
 1. Use just 1s if you want!
 1. And last but not least, let's not forget embedded images:
-  
 `;
 
 function App() {
-
   const [markdown, setMarkdown] = useState(defaultMarkdown);
   const [darkMode, setDarkMode] = useState(false);
-  const [activePane, setActivePane] = useState(null);
+  const [visiblePane, setVisiblePane] = useState('both'); // 'both' | 'editor' | 'preview'
+
+  const toggleEditor = () => {
+    setVisiblePane(prev => (prev === 'editor' ? 'both' : 'editor'));
+  };
+
+  const togglePreview = () => {
+    setVisiblePane(prev => (prev === 'preview' ? 'both' : 'preview'));
+  };
 
   return (
-  <div
-  className= {`app ${darkMode ? 'dark' : 'light'}`}
-  >
-    <div className='theme-toggle'>
-      <label>
-        <input
-        type='checkbox'
-        checked={darkMode}
-        onChange={ () => setDarkMode(!darkMode)}
-        />
-        {darkMode ? ' Dark Mode' : ' Light Mode'}
-      </label>
-    </div>
-    
-    <div
-    className={`pane editor-pane ${ activePane === 'preview' ? 'hidden' : '' }`}
-    >
-      <div
-      className='toolbar'>
-        <span
-        className='title'>
-          Editor
-        </span>
-        <button
-        className='close-btn'
-        onClick={ () => setActivePane(activePane === 'editor' ? null : 'editor')}
-        >
-          X
-        </button>
+    <div className={`app ${darkMode ? 'dark' : 'light'}`}>
+      <div className='theme-toggle'>
+        <label>
+          <input
+            type='checkbox'
+            checked={darkMode}
+            onChange={() => setDarkMode(!darkMode)}
+          />
+          {darkMode ? ' Dark Mode' : ' Light Mode'}
+        </label>
       </div>
-      <textarea
-      id='editor'
-      value={markdown}
-      onChange={(e) => setMarkdown(e.target.value)}
-      />
+
+      {(visiblePane === 'both' || visiblePane === 'editor') && (
+        <div className={`pane editor-pane ${visiblePane === 'editor' ? 'full-width' : ''}`}>
+          <div className='toolbar'>
+            <span className='title'>Editor</span>
+            <button className='close-btn' onClick={toggleEditor}>X</button>
+          </div>
+          <textarea
+            id='editor'
+            value={markdown}
+            onChange={(e) => setMarkdown(e.target.value)}
+          />
+        </div>
+      )}
+
+      {(visiblePane === 'both' || visiblePane === 'preview') && (
+        <div className={`pane preview-pane ${visiblePane === 'preview' ? 'full-width' : ''}`}>
+          <div className='toolbar'>
+            <span className='title'>Previewer</span>
+            <button className='close-btn' onClick={togglePreview}>X</button>
+          </div>
+          <div
+            id='preview'
+            dangerouslySetInnerHTML={{ __html: marked.parse(markdown) }}
+          />
+        </div>
+      )}
     </div>
+  );
+}
 
-    <div
-    className={`pane preview-pane ${ activePane === 'editor' ? 'hidden' : '' }`}
-    >
-      <div className='toolbar'>
-        <span className='title'>Previewer</span>
-        <button
-        className='close-btn'
-        onClick={ () => setActivePane(activePane === 'preview' ? null : 'preview')}>
-          X
-        </button>
-      </div>
-      <div
-      id='preview'
-      dangerouslySetInnerHTML={{ __html: marked.parse(markdown) }} 
-      />
-
-    </div>
-
-  </div>
-)}
-
-export default App
+export default App;
